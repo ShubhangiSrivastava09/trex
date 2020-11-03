@@ -12,7 +12,7 @@ var score=0;
 
 var gameOver, restart;
 
-//localStorage["HighestScore"] = 0;
+localStorage["HighestScore"] = 0;
 
 function preload(){
   trex_running =   loadAnimation("trex1.png","trex3.png","trex4.png");
@@ -34,23 +34,23 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(600, 200);
   
-  trex = createSprite(50,height-70,20,50);
+  trex = createSprite(50,180,20,50);
   
   trex.addAnimation("running", trex_running);
   trex.addAnimation("collided", trex_collided);
   trex.scale = 0.5;
   
-  ground = createSprite(width/2,height,width,2);
+  ground = createSprite(200,180,400,20);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
   ground.velocityX = -(6 + 3*score/100);
   
-  gameOver = createSprite(width/2,height/2- 50);
+  gameOver = createSprite(300,100);
   gameOver.addImage(gameOverImg);
   
-  restart = createSprite((width/2,height/2);
+  restart = createSprite(300,140);
   restart.addImage(restartImg);
   
   gameOver.scale = 0.5;
@@ -59,7 +59,7 @@ function setup() {
   gameOver.visible = false;
   restart.visible = false;
   
-  invisibleGround = createSprite(width/2,height-10,width,125);
+  invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
   
   cloudsGroup = new Group();
@@ -77,9 +77,8 @@ function draw() {
     score = score + Math.round(getFrameRate()/60);
     ground.velocityX = -(6 + 3*score/100);
   
-    if(touches.length > 0 || keyDown("space") && trex.y >= 159) {
+    if(keyDown("space") && trex.y >= 159) {
       trex.velocityY = -12;
-       touches = [];
     }
   
     trex.velocityY = trex.velocityY + 0.8
@@ -113,9 +112,8 @@ function draw() {
     obstaclesGroup.setLifetimeEach(-1);
     cloudsGroup.setLifetimeEach(-1);
     
-    if(touches.length>0 ||mousePressedOver(restart)) {
+    if(mousePressedOver(restart)) {
       reset();
-      touches = []
     }
   }
   
@@ -187,10 +185,10 @@ function reset(){
   
   trex.changeAnimation("running",trex_running);
   
- // if(localStorage["HighestScore"]<score){
-   // localStorage["HighestScore"] = score;
- // }
-  //console.log(localStorage["HighestScore"]);
+  if(localStorage["HighestScore"]<score){
+    localStorage["HighestScore"] = score;
+  }
+  console.log(localStorage["HighestScore"]);
   
   score = 0;
   
